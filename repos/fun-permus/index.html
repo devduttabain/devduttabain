@@ -4,112 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    
     <title>Permus - Devdutta Bain</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <script src="//jashkenas.github.io/underscore/underscore-min.js"></script>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script>
-        function doChange() {
-
-            var str = $('#strbox').val().toUpperCase();
-            var crdbdy = $("#crdbdy").empty();
-
-            for (var i = 1; i <= str.length; i++) {
-                var secId = `sec-${i}`;
-                var lgId = `lg-${i}`;
-                var sec = $("<section/>", {
-                    "class": "section",
-                    "id": secId,
-                }).append(`
-                    <span class="h5 text-bold">${i} character(s) combinations </span>
-                    <ul class="lg  row list-group  list-group-flush-x list-group-horizontal" id="${lgId}"></ul>
-                `).appendTo(crdbdy);
-                var lg = sec.find('.lg.list-group').first();
-                var arr = cc(str, i);
-                arr = _(arr).uniq();
-                arr.forEach((pm) => lg.append(`<span class="list-group-item my-1">${pm}</span>`));
-            }
-
-
-            var lst = [];
-
-            function cc(str, z) {
-                var y = str;
-                var len = str.length;
-                var q = str.split("");
-                var x = q.length;
-                var b = isUnique();
-                lst = [];
-                var b = isUnique(y, x);
-                permutations(len, str.split(""));
-                var o = lst.length;
-                var v;
-                for (v = 0; v < o; v++) {
-                    lst[v] = lst[v].substr(0, z)
-                }
-                if (b) {
-                    lst.sort()
-                }
-                var A = [];
-                for (var v = 0; v < o; v++) {
-                    if (lst[v] === lst[v + 1]) {
-                        continue
-                    }
-                    A.push(lst[v])
-                }
-                lst.length = 0;
-                lst = A;
-                o = lst.length;
-                A = [];
-                return lst;
-
-            }
-
-
-            function permutations(d, a) {
-                var c = d - 1;
-                if (d === 1) {
-                    lst.push(a.join(""))
-                } else {
-                    for (var b = 0; b < c; b++) {
-                        permutations(c, a);
-                        if (d % 2 === 0) {
-                            tmp = a[c];
-                            a[c] = a[b];
-                            a[b] = tmp
-                        } else {
-                            tmp = a[c];
-                            a[c] = a[0];
-                            a[0] = tmp
-                        }
-                    }
-                    permutations(c, a)
-                }
-            }
-
-            function isUnique(d, a) {
-                var c, b;
-                for (c = 0; c < a; c++) {
-                    for (b = (c + 1); b < a; b++) {
-                        if (d[c] === d[b]) {
-                            return false
-                        }
-                    }
-                }
-                return true
-            }
-
-        }
-    </script>
 </head>
 
 <body>
-    <script src="//jashkenas.github.io/underscore/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -214,7 +114,8 @@
                 <input type="text" name="" id="strbox" class="form-control text-uppercase" onchange="doChange()">
             </div>
             <div class="col-md-4">
-                <button type="button" class="btn btn-success " id="doChangeBtn" onclick="doChange()">Generate</button>
+                <button type="button" class="btn btn-success " id="doChangeBtn"
+                    onclick="doChange()">Generate</button>
             </div>
         </div>
         <div class="card my-2">
