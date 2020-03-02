@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    
-    <title>Permus - Devdutta Bain</title>
+
+    <title>Permus Dict - Devdutta Bain</title>
 </head>
 
 <body>
@@ -14,11 +14,13 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="/en-regex.js"></script>
     <script>
         function doChange() {
 
             var str = $('#strbox').val().toUpperCase();
             var crdbdy = $("#crdbdy").empty();
+            var isDictOnly = $(":radio[name=ty_r]:checked").val() == "OnlyDictionaryWords";
 
             for (var i = 1; i <= str.length; i++) {
                 var secId = `sec-${i}`;
@@ -33,7 +35,14 @@
                 var lg = sec.find('.lg.list-group').first();
                 var arr = cc(str, i);
                 arr = _(arr).uniq();
-                arr.forEach((pm) => lg.append(`<span class="list-group-item my-1">${pm}</span>`));
+                arr.forEach((pm) => {
+                    var isDictWrd = EngDict.test(pm);
+                    if ((isDictOnly && isDictWrd) || !isDictOnly) {
+                        lg.append(
+                            `<span class="list-group-item my-1 ${isDictWrd?"active":"disabled" }">${pm}</span>`
+                        );
+                    }
+                });
             }
 
 
@@ -106,21 +115,32 @@
             }
 
         }
-        $(document).ready(function () {
-            $(document).on('click touch',".lg.list-group .list-group-item",function () {
-               $(this).toggleClass('active');
-            });
-        });
+        // $(document).ready(function () {
+        //     $(document).on('click touch',".lg.list-group .list-group-item",function () {
+        //        $(this).toggleClass('active');
+        //     });
+        // });
     </script>
     <div class="container">
         <h2 class="text">Give Your Characters</h2>
         <div class="row">
-            <div class="col-md-8 ">
+            <div class="col-md-8 my-1">
                 <input type="text" name="" id="strbox" class="form-control text-uppercase" onchange="doChange()">
             </div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-success " id="doChangeBtn"
-                    onclick="doChange()">Generate</button>
+            <div class="col-md-4 my-1 text-center">
+                <div>
+                    <label for="ty_r_EveryPossiblePermutation">
+                        <input type="radio" value="EveryPossiblePermutation" name="ty_r"
+                            id="ty_r_EveryPossiblePermutation" />
+                        <span>All</span>
+                    </label>
+                    <label for="ty_r_OnlyDictionaryWords">
+                        <input type="radio" value="OnlyDictionaryWords" name="ty_r" id="ty_r_OnlyDictionaryWords"
+                            checked="checked" />
+                        <span>Only Dictionary Words</span>
+                    </label>
+                </div>
+                <button type="button" class="btn btn-success " id="doChangeBtn" onclick="doChange()">Generate</button>
             </div>
         </div>
         <div class="card my-2">
